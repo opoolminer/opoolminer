@@ -154,7 +154,7 @@ start() {
 }
 
 update() {
-    installapp {{version}}
+    installapp {{1.0.2}}
 }
 
 turn_on() {
