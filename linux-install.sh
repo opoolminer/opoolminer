@@ -188,9 +188,8 @@ show_menu() {
      ${green}$uiname脚本管理界面安装完成${red}版本${shell_version},转发软件版本${version}
      ${green}任意目录下输入$uiname 启动管理界面
      ${red}转发软件浏览器默认端口62438,默认用户名密码admin,admin${plain}
-   ————————————————
+
      ${green}0.${plain} 退出
-   ————————————————
      ${green}1.${plain} 安装
      ${green}2.${plain} 更新
      ${green}3.${plain} 卸载
@@ -198,7 +197,6 @@ show_menu() {
      ${green}5.${plain} 卸载脚本
      ${green}6.${plain} 启动
      ${green}7.${plain} 停止
-   ————————————————
    "
     echo && read -p "请输入选择 [0-8]: " num
 
