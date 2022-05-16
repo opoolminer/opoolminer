@@ -85,6 +85,7 @@ install() {
    ulimit -Hsn 65535 
    clear
    autorun
+   start
    before_show_menu
 }
 
@@ -131,6 +132,7 @@ update_app() {
    cd ../
    rm -rf porttran/
    autorun
+   start
    before_show_menu
 }
 uninstall_app() {
