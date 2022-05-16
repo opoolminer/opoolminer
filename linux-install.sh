@@ -84,6 +84,7 @@ install() {
    echo ulimit -Hsn 65535 >> /root/.bash_profile
    ulimit -Hsn 65535 
    clear
+   autorun
    before_show_menu
 }
 
@@ -129,6 +130,7 @@ update_app() {
    cp -r ui /etc/porttran
    cd ../
    rm -rf porttran/
+   autorun
    before_show_menu
 }
 uninstall_app() {
@@ -189,16 +191,13 @@ show_menu() {
    ————————————————
      ${green}0.${plain} 退出
    ————————————————
-     ${green}1.${plain} 安装转发
-     ${green}2.${plain} 更新转发
-     ${green}3.${plain} 卸载转发
-   ————————————————
+     ${green}1.${plain} 安装
+     ${green}2.${plain} 更新
+     ${green}3.${plain} 卸载
      ${green}4.${plain} 更新脚本
      ${green}5.${plain} 卸载脚本
-   ————————————————
-     ${green}6.${plain} 启动转发
-     ${green}7.${plain} 停止转发
-     ${green}8.${plain} 开机启动
+     ${green}6.${plain} 启动
+     ${green}7.${plain} 停止
    ————————————————
    "
     echo && read -p "请输入选择 [0-8]: " num
@@ -219,8 +218,6 @@ show_menu() {
         6) start
         ;;
         7) stop
-        ;;
-        8) autorun
         ;;
         *) echo -e "${red}请输入正确的数字 [0-8]${plain}"
         ;;
