@@ -4,7 +4,7 @@ uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
-shell_version='1.2.1'
+shell_version='1.2.2'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -84,7 +84,7 @@ install() {
    echo ulimit -Hsn 65535 >> /root/.bash_profile
    ulimit -Hsn 65535 
    autorun
-   echo && echo -n -e "${yellow}安装完成,按回车启动代理软件: ${plain}" && read temp
+   echo && echo -n -e "${yellow}安装完成,按回车启动,CTRL+C退出: ${plain}" && read temp
    start
 }
 
@@ -121,7 +121,6 @@ update_app() {
    cd ../
    rm -rf $pkgname-$version
    rm $version.tar.gz
-   rm $installname
    rm /etc/porttran/porttran
    rm /etc/porttran/ppexec
    rm -rf /etc/porttran/ui
@@ -131,9 +130,8 @@ update_app() {
    cp -r ui /etc/porttran
    cd ../
    rm -rf porttran/
+   echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
    start
-   sleep 2
-   before_show_menu
 }
 uninstall_app() {
    echo && echo -n -e "${yellow}确定卸载吗,按回车确定,CTRL+C退出: ${plain}" && read temp
@@ -150,7 +148,7 @@ uninstall_shell() {
 start() {
    cd /etc/porttran
    setsid ./porttran &
-   sleep 2
+   sleep 3
    before_show_menu
 }
 stop() {
