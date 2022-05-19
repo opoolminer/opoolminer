@@ -19,6 +19,43 @@ else
 rm $version.tar.gz
 fi
 
+change_limit(){
+
+    changeLimit="n"
+
+    if [ $(grep -c "root soft nofile" /etc/security/limits.conf) -eq '0' ]; then
+        echo "root soft nofile 65535" >>/etc/security/limits.conf
+        echo "* soft nofile 65535" >>/etc/security/limits.conf
+        changeLimit="y"
+    fi
+
+    if [ $(grep -c "root hard nofile" /etc/security/limits.conf) -eq '0' ]; then
+        echo "root hard nofile 65535" >>/etc/security/limits.conf
+        echo "* hard nofile 65535" >>/etc/security/limits.conf
+        changeLimit="y"
+    fi
+
+    if [ $(grep -c "DefaultLimitNOFILE=65535" /etc/systemd/user.conf) -eq '0' ]; then
+        echo "DefaultLimitNOFILE=65535" >>/etc/systemd/user.conf
+        changeLimit="y"
+    fi
+
+    if [ $(grep -c "DefaultLimitNOFILE=65535" /etc/systemd/system.conf) -eq '0' ]; then
+        echo "DefaultLimitNOFILE=65535" >>/etc/systemd/system.conf
+        changeLimit="y"
+    fi
+
+    if [[ "$changeLimit" = "y" ]]; then
+        echo "连接数限制已修改为65535,重启服务器后生效"
+    else
+        echo -n "当前连接数限制："
+        ulimit -n
+    fi
+}
+check_limit() {
+    echo "当前系统连接数：" 
+    ulimit -n
+}
 kill_porttran(){
       PROCESS=`ps -ef|grep porttran|grep -v grep|grep -v PPID|awk '{ print $2}'`
       for i in $PROCESS
@@ -197,8 +234,11 @@ show_menu() {
      ${green}3.${plain} 卸载
      ${green}4.${plain} 启动
      ${green}5.${plain} 停止
+     ${green}6.${plain} 查看linux最大连接
+     ${green}7.${plain} 修改linux最大连接数(需重启服务器生效)
+    
    "
-    echo && read -p "请输入选择 [0-5]: " num
+    echo && read -p "请输入选择 [0-7]: " num
 
     case "${num}" in
         0) exit 0
@@ -213,7 +253,11 @@ show_menu() {
         ;;
         5) stop
         ;;
-        *) echo -e "${red}请输入正确的数字 [0-5]${plain}"
+        6) check_limit
+        ;;
+        7) change_limit
+        ;;
+        *) echo -e "${red}请输入正确的数字 [0-7]${plain}"
         ;;
     esac
 }
