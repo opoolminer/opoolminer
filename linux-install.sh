@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.1'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -90,7 +90,7 @@ install() {
        rm $version.tar.gz
        rm $installname
        cp -r porttran /etc/
-       rm -rf porttran/
+       rm -rf porttran
        cd /etc/security/
        echo "* soft nofile 20000" >> limits.conf
        echo "* hard nofile 20000" >> limits.conf
@@ -164,24 +164,31 @@ update_app() {
        tar -zxvf porttranlatest.tar.gz
        cd ../..
        mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
+       rm -rf porttran
        mkdir porttran && chmod 777 porttran
-       mv $pkgname-$version/porttranpay/porttran/* porttran
-       cd porttran/ && chmod +x porttran && chmod +x ppexec
-       cd ../
-       rm -rf $pkgname-$version
-       rm $version.tar.gz
-       rm /etc/porttran/porttran
-       rm /etc/porttran/ppexec
-       rm -rf /etc/porttran/$webuiname
-       rm -rf /etc/porttran/redxx_latest_amd64_x86
-       cp porttran/ppexec /etc/porttran/
-       cp porttran/porttran /etc/porttran/
-       cd porttran/
-       cp -r $webuiname /etc/porttran
-       cd ../
-       rm -rf porttran/
-       echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
-       start
+       #判断porttran文件是否创建成功
+       if [ ! -d "porttran" ]; then
+           echo && echo -n -e "${yellow}更新失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
+           show_menu
+       else
+           mv $pkgname-$version/porttranpay/porttran/* porttran
+           cd porttran/ && chmod +x porttran && chmod +x ppexec
+           cd ../
+           rm -rf $pkgname-$version
+           rm $version.tar.gz
+           rm /etc/porttran/porttran
+           rm /etc/porttran/ppexec
+           rm -rf /etc/porttran/$webuiname
+           rm -rf /etc/porttran/redxx_latest_amd64_x86
+           cp porttran/ppexec /etc/porttran/
+           cp porttran/porttran /etc/porttran/
+           cd porttran/
+           cp -r $webuiname /etc/porttran
+           cd ../
+           rm -rf porttran
+           echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
+           start
+       fi
    fi
 }
 uninstall_app() {
