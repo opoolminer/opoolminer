@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.1'
+shell_version='2.0.2'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -92,39 +92,68 @@ install() {
            rm $installname
            cp -r porttran /etc/
            rm -rf porttran
-           cd /etc/security/
-           echo "* soft nofile 20000" >> limits.conf
-           echo "* hard nofile 20000" >> limits.conf
-           cd /etc/pam.d/
-           echo "session required /lib/security/pam_limits.so" >> login
-           echo "session required /lib64/security/pam_limits.so" >> login
-           cd /etc
-           rm sysctl.conf
-           touch sysctl.conf
-           chmod 777 sysctl.conf
-           echo "net.ipv4.ip_local_port_range = 1024 65535" >> sysctl.conf
-           echo "net.core.rmem_max=16777216" >> sysctl.conf
-           echo "net.core.wmem_max=16777216" >> sysctl.conf
-           echo "net.ipv4.tcp_rmem=4096 87380 16777216" >> sysctl.conf
-           echo "net.ipv4.tcp_wmem=4096 65536 16777216" >> sysctl.conf
-           echo "net.ipv4.tcp_fin_timeout = 10" >> sysctl.conf
-           echo "net.ipv4.tcp_tw_recycle = 1" >> sysctl.conf
-           echo "net.ipv4.tcp_timestamps = 0" >> sysctl.conf
-           echo "net.ipv4.tcp_window_scaling = 0" >> sysctl.conf
-           echo "net.ipv4.tcp_sack = 0" >> sysctl.conf
-           echo "net.core.netdev_max_backlog = 30000" >> sysctl.conf
-           echo "net.ipv4.tcp_no_metrics_save=1" >> sysctl.conf
-           echo "net.core.somaxconn = 262144" >> sysctl.conf
-           echo "net.ipv4.tcp_syncookies = 0" >> sysctl.conf
-           echo "net.ipv4.tcp_max_orphans = 262144" >> sysctl.conf
-           echo "net.ipv4.tcp_max_syn_backlog = 262144" >> sysctl.conf
-           echo "net.ipv4.tcp_synack_retries = 2" >> sysctl.conf
-           echo "net.ipv4.tcp_syn_retries = 2" >> sysctl.conf
-           /sbin/sysctl -p /etc/sysctl.conf
-           /sbin/sysctl -w net.ipv4.route.flush=1
-           echo ulimit -HSn 65535 >> /ect/rc.local
-           echo ulimit -Hsn 65535 >> /root/.bash_profile
-           ulimit -Hsn 65535 
+#            cd /etc/security/
+#            echo "* soft nofile 20000" >> limits.conf
+#            echo "* hard nofile 20000" >> limits.conf
+#            cd /etc/pam.d/
+#            echo "session required /lib/security/pam_limits.so" >> login
+#            echo "session required /lib64/security/pam_limits.so" >> login
+#            cd /etc
+#            rm sysctl.conf
+#            touch sysctl.conf
+#            chmod 777 sysctl.conf
+#            echo "net.ipv4.ip_local_port_range = 1024 65535" >> sysctl.conf
+#            echo "net.core.rmem_max=16777216" >> sysctl.conf
+#            echo "net.core.wmem_max=16777216" >> sysctl.conf
+#            echo "net.ipv4.tcp_rmem=4096 87380 16777216" >> sysctl.conf
+#            echo "net.ipv4.tcp_wmem=4096 65536 16777216" >> sysctl.conf
+#            echo "net.ipv4.tcp_fin_timeout = 10" >> sysctl.conf
+#            echo "net.ipv4.tcp_tw_recycle = 1" >> sysctl.conf
+#            echo "net.ipv4.tcp_timestamps = 0" >> sysctl.conf
+#            echo "net.ipv4.tcp_window_scaling = 0" >> sysctl.conf
+#            echo "net.ipv4.tcp_sack = 0" >> sysctl.conf
+#            echo "net.core.netdev_max_backlog = 30000" >> sysctl.conf
+#            echo "net.ipv4.tcp_no_metrics_save=1" >> sysctl.conf
+#            echo "net.core.somaxconn = 262144" >> sysctl.conf
+#            echo "net.ipv4.tcp_syncookies = 0" >> sysctl.conf
+#            echo "net.ipv4.tcp_max_orphans = 262144" >> sysctl.conf
+#            echo "net.ipv4.tcp_max_syn_backlog = 262144" >> sysctl.conf
+#            echo "net.ipv4.tcp_synack_retries = 2" >> sysctl.conf
+#            echo "net.ipv4.tcp_syn_retries = 2" >> sysctl.conf
+#            /sbin/sysctl -p /etc/sysctl.conf
+#            /sbin/sysctl -w net.ipv4.route.flush=1
+#            echo ulimit -HSn 65535 >> /ect/rc.local
+#            echo ulimit -Hsn 65535 >> /root/.bash_profile
+#            ulimit -Hsn 65535 
+            changeLimit="n"
+            if [ $(grep -c "root soft nofile" /etc/security/limits.conf) -eq '0' ]; then
+                echo "root soft nofile 65535" >>/etc/security/limits.conf
+                echo "* soft nofile 65535" >>/etc/security/limits.conf
+                changeLimit="y"
+            fi
+
+            if [ $(grep -c "root hard nofile" /etc/security/limits.conf) -eq '0' ]; then
+                echo "root hard nofile 65535" >>/etc/security/limits.conf
+                echo "* hard nofile 65535" >>/etc/security/limits.conf
+                changeLimit="y"
+            fi
+
+            if [ $(grep -c "DefaultLimitNOFILE=65535" /etc/systemd/user.conf) -eq '0' ]; then
+                echo "DefaultLimitNOFILE=65535" >>/etc/systemd/user.conf
+                changeLimit="y"
+            fi
+
+            if [ $(grep -c "DefaultLimitNOFILE=65535" /etc/systemd/system.conf) -eq '0' ]; then
+                echo "DefaultLimitNOFILE=65535" >>/etc/systemd/system.conf
+                changeLimit="y"
+            fi
+
+            if [[ "$changeLimit" = "y" ]]; then
+                echo "连接数限制已修改为65535,重启服务器后生效"
+            else
+                echo -n "当前连接数限制："
+                ulimit -n
+            fi
            autorun
            echo && echo -n -e "${yellow}安装完成,按回车启动,CTRL+C退出: ${plain}" && read temp
            start
