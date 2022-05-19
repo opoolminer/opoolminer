@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.0'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -199,9 +199,11 @@ uninstall_shell() {
 start() {
    kill_porttran
    kill_ppexec
+   echo -e "${green}启动中..."
+   sleep 2
    if [ ! -d "$installfolder" ]; then
        echo -e "${red}转发没有安装,无法启动"
-       else
+   else
        cd /etc/porttran
        setsid ./porttran &
        sleep 3
