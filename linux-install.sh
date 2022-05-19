@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.0'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -168,8 +168,7 @@ install() {
            echo && echo -n -e "${yellow}安装完成,按回车启动,CTRL+C退出: ${plain}" && read temp
            start
        else
-          echo -e "${red}下载安装包失败，请重试"
-          before_show_menu
+          echo -e "${red}下载安装包失败，请输入一键安装脚本"
        fi
    else
        echo -e "${red}转发已经安装,不要重复安装"
@@ -236,7 +235,7 @@ update_app() {
            cd ../
            rm -rf porttran
            if [ ! -f "$installfolder" ]; then
-            echo && echo -n -e "${yellow}更新失败,请重新操作"
+            echo && echo -n -e "${yellow}更新失败,请选择安装操作"
             before_show_menu
            else
             echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
