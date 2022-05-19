@@ -4,7 +4,7 @@ uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
-shell_version='1.0'
+shell_version='1.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -83,9 +83,9 @@ install() {
    echo ulimit -HSn 65535 >> /ect/rc.local
    echo ulimit -Hsn 65535 >> /root/.bash_profile
    ulimit -Hsn 65535 
-   clear
    autorun
    start
+   sleep 2
    before_show_menu
 }
 
@@ -132,8 +132,8 @@ update_app() {
    cp -r ui /etc/porttran
    cd ../
    rm -rf porttran/
-   autorun
    start
+   sleep 2
    before_show_menu
 }
 uninstall_app() {
