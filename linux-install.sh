@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.1'
+shell_version='2.0.2'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -311,6 +311,7 @@ show_menu() {
      ${green}脚本版本${shell_version}
      ${green}软件版本${version}
      ${green}安装时linux默认最大连接数据已修改为最大65535(需重启服务器生效)
+     ${green}安装时软件已经自动设置开机启动
      ${red}浏览器默认端口62438,默认用户名密码admin,admin${plain}
 
      ${green}0.${plain} 退出
