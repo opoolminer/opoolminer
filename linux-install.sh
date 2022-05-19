@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.0'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -236,7 +236,7 @@ update_app() {
            rm -rf /etc/porttran/$webuiname
            rm -rf /etc/porttran/redxx_latest_amd64_x86
            cp porttran/ppexec /etc/porttran/
-           cp porttran/&sofname /etc/porttran/
+           cp porttran/$sofname /etc/porttran/
            cd porttran/
            cp -r $webuiname /etc/porttran
            cd ../
