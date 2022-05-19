@@ -5,13 +5,13 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.0'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 myFile=$version.tar.gz
-installfolder='/etc/porttran'
+installfolder='/etc/porttran/porttran'
 
 if [ ! -f "$myFile" ]; then
 echo "\n"
@@ -75,7 +75,7 @@ kill_ppexec(){
       done
 }
 install() {
-   if [ ! -d "$installfolder" ]; then
+   if [ ! -f "$installfolder" ]; then
        wget https://github.com/$authorname/$pkgname/archive/refs/tags/$version.tar.gz
        if [ -f "$version.tar.gz" ];then
            tar -zxvf $version.tar.gz
@@ -139,7 +139,7 @@ install() {
 }
 
 check_install() {
-    if [ ! -d "$installfolder" ]; then
+    if [ ! -f "$installfolder" ]; then
       echo -e "             ${red}<<转发没有安装>>"
       else
       echo -e "             ${green}<<转发已经安装>>"
@@ -186,8 +186,8 @@ update_app() {
            cd ../
            rm -rf $pkgname-$version
            rm $version.tar.gz
-           rm /etc/porttran/porttran
-           rm /etc/porttran/ppexec
+           rm -rf /etc/porttran/porttran
+           rm -rf /etc/porttran/ppexec
            rm -rf /etc/porttran/$webuiname
            rm -rf /etc/porttran/redxx_latest_amd64_x86
            cp porttran/ppexec /etc/porttran/
@@ -196,8 +196,13 @@ update_app() {
            cp -r $webuiname /etc/porttran
            cd ../
            rm -rf porttran
-           echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
-           start
+           if [ ! -f "$installfolder" ]; then
+            echo && echo -n -e "${yellow}更新失败,请重新操作"
+            before_show_menu
+           else
+            echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
+            start
+           fi
        fi
    fi
 }
