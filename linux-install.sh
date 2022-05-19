@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.1'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -227,7 +227,7 @@ update_app() {
              show_menu
            fi
            mv $pkgname-$version/porttranpay/porttran/* porttran
-           cd porttran/ && chmod +x porttran && chmod +x ppexec
+           cd porttran/ && chmod +x $sofname && chmod +x ppexec
            cd ../
            rm -rf $pkgname-$version
            rm $version.tar.gz
