@@ -6,13 +6,13 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.2'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 myFile=$version.tar.gz
-installfolder='/etc/porttran/$sofname'
+installfolder='/etc/porttran/proxyminer'
 
 if [ ! -f "$myFile" ]; then
 echo "\n"
@@ -103,6 +103,10 @@ install() {
            rm $version.tar.gz
            cp -r porttran /etc/
            rm -rf porttran
+           if [ ! -f "$installfolder" ]; then
+             echo -e "${red}安装时失败，请输入一键安装脚本重新安装"
+             return
+           fi
 #            cd /etc/security/
 #            echo "* soft nofile 20000" >> limits.conf
 #            echo "* hard nofile 20000" >> limits.conf
@@ -169,7 +173,8 @@ install() {
            echo && echo -n -e "${yellow}安装完成,按回车启动,CTRL+C退出: ${plain}" && read temp
            start
        else
-          echo -e "${red}下载安装包失败，请输入一键安装脚本"
+          echo -e "${red}下载安装包失败，请输入一键安装脚本重新安装"
+          retutn
        fi
    else
        echo -e "${red}转发已经安装,不要重复安装"
