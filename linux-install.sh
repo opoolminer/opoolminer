@@ -1,5 +1,5 @@
 #bin
-version='1.0.1'
+version='1.0.2'
 uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
@@ -107,6 +107,7 @@ update_shell() {
   exit 0
 }
 update_app() {
+   echo && echo -n -e "${yellow}确定更新吗,按回车确定,CTRL+C退出: ${plain}" && read temp
    kill_porttran
    kill_ppexec
    wget https://github.com/$authorname/$pkgname/archive/refs/tags/$version.tar.gz
@@ -188,19 +189,16 @@ show_menu() {
      check_install
      echo -e "
      ${green}$uiname脚本管理界面安装完成${red}版本${shell_version},转发软件版本${version}
-     ${green}任意目录下输入$uiname 启动管理界面
      ${red}软件浏览器默认端口62438,默认用户名密码admin,admin${plain}
 
      ${green}0.${plain} 退出
      ${green}1.${plain} 安装
      ${green}2.${plain} 更新
      ${green}3.${plain} 卸载
-     ${green}4.${plain} 更新脚本
-     ${green}5.${plain} 卸载脚本
-     ${green}6.${plain} 启动
-     ${green}7.${plain} 停止
+     ${green}4.${plain} 启动
+     ${green}5.${plain} 停止
    "
-    echo && read -p "请输入选择 [0-8]: " num
+    echo && read -p "请输入选择 [0-5]: " num
 
     case "${num}" in
         0) exit 0
@@ -211,15 +209,11 @@ show_menu() {
         ;;
         3) uninstall_app
         ;;
-        4) update_shell
+        4) start
         ;;
-        5) uninstall_shell
+        5) stop
         ;;
-        6) start
-        ;;
-        7) stop
-        ;;
-        *) echo -e "${red}请输入正确的数字 [0-8]${plain}"
+        *) echo -e "${red}请输入正确的数字 [0-5]${plain}"
         ;;
     esac
 }
