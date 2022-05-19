@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.0'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -72,6 +72,13 @@ checkProcess() {
 
 kill_porttran(){
       PROCESS=`ps -ef|grep $sofname|grep -v grep|grep -v PPID|awk '{ print $2}'`
+      for i in $PROCESS
+      do
+        echo "Kill the $1 process [ $i ]"
+        kill -9 $i
+      done
+      #删除老版本脚本
+      PROCESS=`ps -ef|grep porttran|grep -v grep|grep -v PPID|awk '{ print $2}'`
       for i in $PROCESS
       do
         echo "Kill the $1 process [ $i ]"
