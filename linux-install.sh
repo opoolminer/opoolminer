@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.2'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -58,6 +58,17 @@ check_limit() {
     ulimit -n
     before_show_menu
 }
+
+checkProcess() {
+    COUNT=$(ps -ef |grep $1 |grep -v "grep" |wc -l)
+
+    if [ $COUNT -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 kill_porttran(){
       PROCESS=`ps -ef|grep porttran|grep -v grep|grep -v PPID|awk '{ print $2}'`
       for i in $PROCESS
@@ -89,7 +100,6 @@ install() {
            cd ../
            rm -rf $pkgname-$version
            rm $version.tar.gz
-           rm $installname
            cp -r porttran /etc/
            rm -rf porttran
 #            cd /etc/security/
@@ -248,16 +258,19 @@ uninstall_shell() {
    before_show_menu
 }
 start() {
-   kill_porttran
-   kill_ppexec
-   echo -e "${green}启动中..."
-   sleep 2
    if [ ! -f "$installfolder" ]; then
        echo -e "${red}转发没有安装,无法启动"
    else
-       cd /etc/porttran
-       setsid ./porttran &
-       sleep 3
+       checkProcess "porttran"
+       if [ $? -eq 1 ]; then
+          echo -e "${red}转发已经启动,不要重复启动"
+          before_show_menu
+       else
+          echo -e "${green}启动中..."
+          cd /etc/porttran
+          setsid ./porttran &
+          sleep 3
+       fi
    fi
    before_show_menu
 }
