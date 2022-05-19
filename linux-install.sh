@@ -1,11 +1,11 @@
 #bin
-version='1.0.1'
+version='1.0.2'
 uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='1.2.3'
+shell_version='1.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
