@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.0'
+shell_version='2.0.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -156,7 +156,7 @@ update_shell() {
   exit 0
 }
 update_app() {
-   if [ ! -d "$installfolder" ]; then
+   if [ ! -f "$installfolder" ]; then
        echo -e "${red}转发没有安装,请先安装转发"
        before_show_menu
    else
