@@ -4,7 +4,7 @@ uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
-shell_version='1.2'
+shell_version='1.2.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -181,7 +181,6 @@ autorun() {
       echo "exit 0" >> rc.local
       cd /root
       echo -e "${green}开机启动设置成功"
-      before_show_menu
 }
 show_menu() {
    clear
