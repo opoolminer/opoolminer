@@ -51,10 +51,12 @@ change_limit(){
         echo -n "当前连接数限制："
         ulimit -n
     fi
+    before_show_menu
 }
 check_limit() {
     echo "当前系统连接数：" 
     ulimit -n
+    before_show_menu
 }
 kill_porttran(){
       PROCESS=`ps -ef|grep porttran|grep -v grep|grep -v PPID|awk '{ print $2}'`
