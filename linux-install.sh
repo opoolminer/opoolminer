@@ -187,6 +187,8 @@ uninstall_shell() {
    before_show_menu
 }
 start() {
+   kill_porttran
+   kill_ppexec
    cd /etc/porttran
    setsid ./porttran &
    sleep 3
