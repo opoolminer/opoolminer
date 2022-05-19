@@ -6,13 +6,14 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.1'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 myFile=$version.tar.gz
 installfolder='/etc/porttran/proxyminer'
+oldinstallfolder='/etc/porttran/porttran'
 
 if [ ! -f "$myFile" ]; then
 echo "\n"
@@ -192,8 +193,12 @@ install() {
 
 check_install() {
     if [ ! -f "$installfolder" ]; then
+        if [ -f "$oldinstallfolder" ]; then
+              echo -e "             ${green}<<转发已经安装>>"
+              return
+        fi
       echo -e "             ${red}<<转发没有安装>>"
-      else
+    else
       echo -e "             ${green}<<转发已经安装>>"
     fi
 }
@@ -208,53 +213,54 @@ update_shell() {
   exit 0
 }
 update_app() {
-   if [ ! -f "$installfolder" ]; then
-       echo -e "${red}转发没有安装,请先安装转发"
-       before_show_menu
+   if [ ! -f "$oldinstallfolder" ]; then
+        if [ ! -f "$installfolder" ]; then
+            echo -e "${red}转发没有安装,请先安装转发"
+            before_show_menu
+        fi
+   fi
+   echo && echo -n -e "${yellow}确定更新吗,按回车确定,CTRL+C退出: ${plain}" && read temp
+   kill_porttran
+   kill_ppexec
+   wget https://github.com/$authorname/$pkgname/archive/refs/tags/$version.tar.gz
+   tar -zxvf $version.tar.gz
+   cd $pkgname-$version/porttranpay
+   tar -zxvf porttranlatest.tar.gz
+   cd ../..
+   rm -rf porttran
+   mkdir porttran && chmod 777 porttran
+   #判断porttran文件是否创建成功
+   if [ ! -d "porttran" ]; then
+       echo && echo -n -e "${yellow}更新失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
+       show_menu
    else
-       echo && echo -n -e "${yellow}确定更新吗,按回车确定,CTRL+C退出: ${plain}" && read temp
-       kill_porttran
-       kill_ppexec
-       wget https://github.com/$authorname/$pkgname/archive/refs/tags/$version.tar.gz
-       tar -zxvf $version.tar.gz
-       cd $pkgname-$version/porttranpay
-       tar -zxvf porttranlatest.tar.gz
-       cd ../..
+       mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/$sofname
+       #判断porttran重命名是否成功
+       if [ ! -f "$pkgname-$version/porttranpay/porttran/$sofname" ]; then
+         echo && echo -n -e "${yellow}更新失败,重命名失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
+         show_menu
+       fi
+       mv $pkgname-$version/porttranpay/porttran/* porttran
+       cd porttran/ && chmod +x $sofname && chmod +x ppexec
+       cd ../
+       rm -rf $pkgname-$version
+       rm $version.tar.gz
+       rm -rf /etc/porttran/$sofname
+       rm -rf /etc/porttran/ppexec
+       rm -rf /etc/porttran/$webuiname
+       rm -rf /etc/porttran/redxx_latest_amd64_x86
+       cp porttran/ppexec /etc/porttran/
+       cp porttran/$sofname /etc/porttran/
+       cd porttran/
+       cp -r $webuiname /etc/porttran
+       cd ../
        rm -rf porttran
-       mkdir porttran && chmod 777 porttran
-       #判断porttran文件是否创建成功
-       if [ ! -d "porttran" ]; then
-           echo && echo -n -e "${yellow}更新失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
-           show_menu
+       if [ ! -f "$installfolder" ]; then
+        echo && echo -n -e "${yellow}更新失败,请程序打开脚本操作"
+        return
        else
-           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/$sofname
-           #判断porttran重命名是否成功
-           if [ ! -f "$pkgname-$version/porttranpay/porttran/$sofname" ]; then
-             echo && echo -n -e "${yellow}更新失败,重命名失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
-             show_menu
-           fi
-           mv $pkgname-$version/porttranpay/porttran/* porttran
-           cd porttran/ && chmod +x $sofname && chmod +x ppexec
-           cd ../
-           rm -rf $pkgname-$version
-           rm $version.tar.gz
-           rm -rf /etc/porttran/$sofname
-           rm -rf /etc/porttran/ppexec
-           rm -rf /etc/porttran/$webuiname
-           rm -rf /etc/porttran/redxx_latest_amd64_x86
-           cp porttran/ppexec /etc/porttran/
-           cp porttran/$sofname /etc/porttran/
-           cd porttran/
-           cp -r $webuiname /etc/porttran
-           cd ../
-           rm -rf porttran
-           if [ ! -f "$installfolder" ]; then
-            echo && echo -n -e "${yellow}更新失败,请程序打开脚本操作"
-            return
-           else
-            echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
-            start
-           fi
+        echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
+        start
        fi
    fi
 }
