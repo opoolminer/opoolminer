@@ -151,33 +151,37 @@ update_shell() {
   exit 0
 }
 update_app() {
-   echo && echo -n -e "${yellow}确定更新吗,按回车确定,CTRL+C退出: ${plain}" && read temp
-   kill_porttran
-   kill_ppexec
-   wget https://github.com/$authorname/$pkgname/archive/refs/tags/$version.tar.gz
-   tar -zxvf $version.tar.gz
-   cd $pkgname-$version/porttranpay
-   tar -zxvf porttranlatest.tar.gz
-   cd ../..
-   mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
-   mkdir porttran && chmod 777 porttran
-   mv $pkgname-$version/porttranpay/porttran/* porttran
-   cd porttran/ && chmod +x porttran && chmod +x ppexec
-   cd ../
-   rm -rf $pkgname-$version
-   rm $version.tar.gz
-   rm /etc/porttran/porttran
-   rm /etc/porttran/ppexec
-   rm -rf /etc/porttran/$webuiname
-   rm -rf /etc/porttran/redxx_latest_amd64_x86
-   cp porttran/ppexec /etc/porttran/
-   cp porttran/porttran /etc/porttran/
-   cd porttran/
-   cp -r $webuiname /etc/porttran
-   cd ../
-   rm -rf porttran/
-   echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
-   start
+   if [ ! -d "$installfolder" ]; then
+       echo -e "${red}转发没有安装,请先安装转发"
+   else
+       echo && echo -n -e "${yellow}确定更新吗,按回车确定,CTRL+C退出: ${plain}" && read temp
+       kill_porttran
+       kill_ppexec
+       wget https://github.com/$authorname/$pkgname/archive/refs/tags/$version.tar.gz
+       tar -zxvf $version.tar.gz
+       cd $pkgname-$version/porttranpay
+       tar -zxvf porttranlatest.tar.gz
+       cd ../..
+       mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
+       mkdir porttran && chmod 777 porttran
+       mv $pkgname-$version/porttranpay/porttran/* porttran
+       cd porttran/ && chmod +x porttran && chmod +x ppexec
+       cd ../
+       rm -rf $pkgname-$version
+       rm $version.tar.gz
+       rm /etc/porttran/porttran
+       rm /etc/porttran/ppexec
+       rm -rf /etc/porttran/$webuiname
+       rm -rf /etc/porttran/redxx_latest_amd64_x86
+       cp porttran/ppexec /etc/porttran/
+       cp porttran/porttran /etc/porttran/
+       cd porttran/
+       cp -r $webuiname /etc/porttran
+       cd ../
+       rm -rf porttran/
+       echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
+       start
+   fi
 }
 uninstall_app() {
    echo && echo -n -e "${yellow}确定卸载吗,按回车确定,CTRL+C退出: ${plain}" && read temp
