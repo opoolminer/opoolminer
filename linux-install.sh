@@ -4,6 +4,7 @@ uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
+webuiname='dist'
 shell_version='1.2.2'
 red='\033[0;31m'
 green='\033[0;32m'
@@ -116,22 +117,23 @@ update_app() {
    cd ../..
    mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
    mkdir porttran && chmod 777 porttran
-   mv $pkgname-$version/porttranpay/porttran/* porttran
-   cd porttran/ && chmod +x porttran && chmod +x ppexec
-   cd ../
-   rm -rf $pkgname-$version
-   rm $version.tar.gz
-   rm /etc/porttran/porttran
-   rm /etc/porttran/ppexec
-   rm -rf /etc/porttran/ui
-   cp porttran/ppexec /etc/porttran/
-   cp porttran/porttran /etc/porttran/
-   cd porttran/
-   cp -r ui /etc/porttran
-   cd ../
-   rm -rf porttran/
-   echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
-   start
+#    mv $pkgname-$version/porttranpay/porttran/* porttran
+#    cd porttran/ && chmod +x porttran && chmod +x ppexec
+#    cd ../
+#    rm -rf $pkgname-$version
+#    rm $version.tar.gz
+#    rm /etc/porttran/porttran
+#    rm /etc/porttran/ppexec
+#    rm -rf /etc/porttran/$webuiname
+#    rm -rf /etc/porttran/redxx_latest_amd64_x86
+#    cp porttran/ppexec /etc/porttran/
+#    cp porttran/porttran /etc/porttran/
+#    cd porttran/
+#    cp -r $webuiname /etc/porttran
+#    cd ../
+#    rm -rf porttran/
+#    echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
+#    start
 }
 uninstall_app() {
    echo && echo -n -e "${yellow}确定卸载吗,按回车确定,CTRL+C退出: ${plain}" && read temp
