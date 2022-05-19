@@ -223,7 +223,7 @@ start() {
    kill_ppexec
    echo -e "${green}启动中..."
    sleep 2
-   if [ ! -d "$installfolder" ]; then
+   if [ ! -f "$installfolder" ]; then
        echo -e "${red}转发没有安装,无法启动"
    else
        cd /etc/porttran
