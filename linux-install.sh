@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.2'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -220,7 +220,7 @@ update_app() {
            echo && echo -n -e "${yellow}更新失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
            show_menu
        else
-           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/&sofname
+           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/$sofname
            #判断porttran重命名是否成功
            if [ ! -f "$pkgname-$version/porttranpay/porttran/$sofname" ]; then
              echo && echo -n -e "${yellow}更新失败,重命名失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
