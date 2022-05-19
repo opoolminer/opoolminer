@@ -4,7 +4,7 @@ uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
-shell_version='1.1'
+shell_version='1.2'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -84,9 +84,8 @@ install() {
    echo ulimit -Hsn 65535 >> /root/.bash_profile
    ulimit -Hsn 65535 
    autorun
+   echo && echo -n -e "${yellow}安装完成,按回车启动代理软件: ${plain}" && read temp
    start
-   sleep 2
-   before_show_menu
 }
 
 check_install() {
