@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.0.1'
+shell_version='2.0.2'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -71,7 +71,7 @@ checkProcess() {
 }
 
 kill_porttran(){
-      PROCESS=`ps -ef|grep porttran|grep -v grep|grep -v PPID|awk '{ print $2}'`
+      PROCESS=`ps -ef|grep $sofname|grep -v grep|grep -v PPID|awk '{ print $2}'`
       for i in $PROCESS
       do
         echo "Kill the $1 process [ $i ]"
@@ -104,6 +104,7 @@ install() {
            cp -r porttran /etc/
            rm -rf porttran
            if [ ! -f "$installfolder" ]; then
+             rm -rf /etc/porttran
              echo -e "${red}安装时失败，请输入一键安装脚本重新安装"
              return
            fi
@@ -219,9 +220,9 @@ update_app() {
            echo && echo -n -e "${yellow}更新失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
            show_menu
        else
-           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
+           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/&sofname
            #判断porttran重命名是否成功
-           if [ ! -f "$pkgname-$version/porttranpay/porttran/porttran" ]; then
+           if [ ! -f "$pkgname-$version/porttranpay/porttran/$sofname" ]; then
              echo && echo -n -e "${yellow}更新失败,重命名失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
              show_menu
            fi
@@ -230,12 +231,12 @@ update_app() {
            cd ../
            rm -rf $pkgname-$version
            rm $version.tar.gz
-           rm -rf /etc/porttran/porttran
+           rm -rf /etc/porttran/$sofname
            rm -rf /etc/porttran/ppexec
            rm -rf /etc/porttran/$webuiname
            rm -rf /etc/porttran/redxx_latest_amd64_x86
            cp porttran/ppexec /etc/porttran/
-           cp porttran/porttran /etc/porttran/
+           cp porttran/&sofname /etc/porttran/
            cd porttran/
            cp -r $webuiname /etc/porttran
            cd ../
@@ -273,7 +274,7 @@ start() {
        else
           echo -e "${green}启动中..."
           cd /etc/porttran
-          setsid ./porttran &
+          setsid ./$sofname &
           sleep 3
        fi
    fi
@@ -303,7 +304,7 @@ autorun() {
       echo "#" >> rc.local
       echo "# By default this script does nothing." >> rc.local
       echo "#exit 0" >> rc.local
-      echo "cd /etc/porttran && setsid ./porttran &" >> rc.local
+      echo "cd /etc/porttran && setsid ./$sofname &" >> rc.local
       echo "exit 0" >> rc.local
       cd /root
       echo -e "${green}开机启动设置成功"
