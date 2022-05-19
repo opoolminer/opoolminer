@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.1'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -177,8 +177,8 @@ update_app() {
        else
            mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
            #判断porttran重命名是否成功
-           if [ ! -d "$pkgname-$version/porttranpay/porttran/porttran" ]; then
-             echo && echo -n -e "${yellow}更新失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
+           if [ ! -f "$pkgname-$version/porttranpay/porttran/porttran" ]; then
+             echo && echo -n -e "${yellow}更新失败,重命名失败,请重新操作,按回车返回主菜单: ${plain}" && read temp
              show_menu
            fi
            mv $pkgname-$version/porttranpay/porttran/* porttran
