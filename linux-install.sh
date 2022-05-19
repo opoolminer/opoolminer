@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='1.1'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -134,11 +134,11 @@ install() {
 }
 
 check_install() {
-if [ ! -d "$installfolder" ]; then
-  echo -e "             ${red}<<转发没有安装>>"
-  else
-  echo -e "             ${green}<<转发已经安装>>"
-fi
+    if [ ! -d "$installfolder" ]; then
+      echo -e "             ${red}<<转发没有安装>>"
+      else
+      echo -e "             ${green}<<转发已经安装>>"
+    fi
 }
 
 before_show_menu() {
@@ -153,6 +153,7 @@ update_shell() {
 update_app() {
    if [ ! -d "$installfolder" ]; then
        echo -e "${red}转发没有安装,请先安装转发"
+       before_show_menu
    else
        echo && echo -n -e "${yellow}确定更新吗,按回车确定,CTRL+C退出: ${plain}" && read temp
        kill_porttran
@@ -198,9 +199,13 @@ uninstall_shell() {
 start() {
    kill_porttran
    kill_ppexec
-   cd /etc/porttran
-   setsid ./porttran &
-   sleep 3
+   if [ ! -d "$installfolder" ]; then
+       echo -e "${red}转发没有安装,无法启动"
+       else
+       cd /etc/porttran
+       setsid ./porttran &
+       sleep 3
+   fi
    before_show_menu
 }
 stop() {
