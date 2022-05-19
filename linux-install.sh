@@ -5,7 +5,7 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='1.2.2'
+shell_version='1.2.3'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -117,23 +117,23 @@ update_app() {
    cd ../..
    mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
    mkdir porttran && chmod 777 porttran
-#    mv $pkgname-$version/porttranpay/porttran/* porttran
-#    cd porttran/ && chmod +x porttran && chmod +x ppexec
-#    cd ../
-#    rm -rf $pkgname-$version
-#    rm $version.tar.gz
-#    rm /etc/porttran/porttran
-#    rm /etc/porttran/ppexec
-#    rm -rf /etc/porttran/$webuiname
-#    rm -rf /etc/porttran/redxx_latest_amd64_x86
-#    cp porttran/ppexec /etc/porttran/
-#    cp porttran/porttran /etc/porttran/
-#    cd porttran/
-#    cp -r $webuiname /etc/porttran
-#    cd ../
-#    rm -rf porttran/
-#    echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
-#    start
+   mv $pkgname-$version/porttranpay/porttran/* porttran
+   cd porttran/ && chmod +x porttran && chmod +x ppexec
+   cd ../
+   rm -rf $pkgname-$version
+   rm $version.tar.gz
+   rm /etc/porttran/porttran
+   rm /etc/porttran/ppexec
+   rm -rf /etc/porttran/$webuiname
+   rm -rf /etc/porttran/redxx_latest_amd64_x86
+   cp porttran/ppexec /etc/porttran/
+   cp porttran/porttran /etc/porttran/
+   cd porttran/
+   cp -r $webuiname /etc/porttran
+   cd ../
+   rm -rf porttran/
+   echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
+   start
 }
 uninstall_app() {
    echo && echo -n -e "${yellow}确定卸载吗,按回车确定,CTRL+C退出: ${plain}" && read temp
@@ -186,8 +186,10 @@ show_menu() {
    clear
      check_install
      echo -e "
-     ${green}$uiname脚本管理界面安装完成${red}版本${shell_version},转发软件版本${version}
-     ${red}软件浏览器默认端口62438,默认用户名密码admin,admin${plain}
+     ${green}$uiname脚本管理界面安装完成
+     ${green}脚本版本${shell_version}
+     ${green}软件版本${version}
+     ${red}浏览器默认端口62438,默认用户名密码admin,admin${plain}
 
      ${green}0.${plain} 退出
      ${green}1.${plain} 安装
