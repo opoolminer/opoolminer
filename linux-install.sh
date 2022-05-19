@@ -5,13 +5,14 @@ pkgname='opoolminer'
 authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
-shell_version='2.0.1'
+sofname='proxyminer'
+shell_version='2.0.0'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 myFile=$version.tar.gz
-installfolder='/etc/porttran/porttran'
+installfolder='/etc/porttran/$sofname'
 
 if [ ! -f "$myFile" ]; then
 echo "\n"
@@ -93,7 +94,7 @@ install() {
            cd $pkgname-$version/porttranpay
            tar -zxvf porttranlatest.tar.gz
            cd ../..
-           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/porttran
+           mv $pkgname-$version/porttranpay/porttran/portdir.sh $pkgname-$version/porttranpay/porttran/$sofname
            mkdir porttran && chmod 777 porttran
            mv $pkgname-$version/porttranpay/porttran/* porttran
            cd porttran/ && chmod +x porttran && chmod +x ppexec
@@ -235,8 +236,8 @@ update_app() {
            cd ../
            rm -rf porttran
            if [ ! -f "$installfolder" ]; then
-            echo && echo -n -e "${yellow}更新失败,请选择安装操作"
-            before_show_menu
+            echo && echo -n -e "${yellow}更新失败,请程序打开脚本操作"
+            return
            else
             echo && echo -n -e "${yellow}更新完成,按回车启动,CTRL+C退出: ${plain}" && read temp
             start
@@ -260,7 +261,7 @@ start() {
    if [ ! -f "$installfolder" ]; then
        echo -e "${red}转发没有安装,无法启动"
    else
-       checkProcess "porttran"
+       checkProcess "$sofname"
        if [ $? -eq 1 ]; then
           echo -e "${red}转发已经启动,不要重复启动"
           before_show_menu
