@@ -6,7 +6,7 @@ authorname='opoolminer'
 installname='linux-install.sh'
 webuiname='dist'
 sofname='proxyminer'
-shell_version='2.2'
+shell_version='2.2.1'
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
@@ -289,6 +289,8 @@ start() {
        else
           echo -e "${green}启动中..."
           cd /etc/porttran
+          #打开CC防御
+          sed -i 's/"is_open_general_swap": true/"is_open_general_swap": false/g' localconfig.json
           setsid ./$sofname &
           sleep 3
        fi
