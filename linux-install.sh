@@ -1,5 +1,5 @@
 #bin
-version='2.0.1'
+version='2.0.2'
 uiname='opoolminer-ui'
 pkgname='opoolminer'
 authorname='opoolminer'
