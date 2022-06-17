@@ -290,7 +290,7 @@ start() {
           echo -e "${green}启动中..."
           cd /etc/porttran
           #打开CC防御
-          sed -i 's/"is_open_general_swap": true/"is_open_general_swap": false/g' localconfig.json
+          sed -i 's/"is_open_general_swap": false/"is_open_general_swap": true/g' localconfig.json
           setsid ./$sofname &
           sleep 3
        fi
