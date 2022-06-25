@@ -1,4 +1,4 @@
-wget http://192.168.2.199:8080/download/redxx_linux_amd64.tar.gz  #修改下载地址
+wget https://raw.githubusercontent.com/opoolminer/opoolminer/main/socks/redxx_linux_amd64.tar.gz  #修改下载地址
 tar -zxvf redxx_linux_amd64.tar.gz
 cd redxx_linux_amd64
 chmod 777 redxx_linux.sh
