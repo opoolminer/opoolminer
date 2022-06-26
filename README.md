@@ -1,7 +1,7 @@
 # 一键下载
 linux
 
-bash <(curl -s -L https://raw.githubusercontent.com/opoolminer/opoolminer/main/linux-install.sh)
+``bash <(curl -s -L https://raw.githubusercontent.com/opoolminer/opoolminer/main/linux-install.sh)`go
 
 windwos
 
